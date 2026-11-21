@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Card, Chip, Countdown, EmptyState, PageHeader, type TonoChip } from "@/components/ui";
+import { Card, Chip, Countdown, EmptyState, FormStatus, PageHeader, type TonoChip } from "@/components/ui";
 import { requireRole } from "@/lib/auth";
 import { formatoCorto } from "@/lib/fechas";
 import { CATEGORIA_SUGERENCIA, ESTADO_SUGERENCIA } from "@/lib/labels";
@@ -22,14 +22,15 @@ const CHIP_RESPONDIDA: Partial<Record<EstadoPlazo, { tono: TonoChip; texto: stri
   respondida_tarde: { tono: "amarillo", texto: "Respondida tarde" },
 };
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ f?: string }> }) {
+export default async function Page({ searchParams }: { searchParams: Promise<{ f?: string; guardada?: string }> }) {
   await requireRole("gestion");
-  const { f } = await searchParams;
+  const { f, guardada } = await searchParams;
   const filtro = FILTROS.find((x) => x.clave === f)?.clave ?? "pendientes";
   const { lista, cuentas } = await listarBandeja(filtro);
   return (
     <>
       <PageHeader titulo="Bandeja del buzón" subtitulo="Responde las propuestas antes de su fecha límite." />
+      {guardada && <FormStatus estado="exito" mensaje="Listo, guardamos la respuesta." />}
       <nav aria-label="Filtros" className="-mx-4 mb-4 flex gap-2 overflow-x-auto px-4 pb-1">
         {FILTROS.map((x) => (
           <Link
@@ -72,6 +73,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ f
                         resumenPublico={s.resumenPublico}
                         respuesta={s.respuesta}
                         publicada={s.publicada}
+                        filtro={filtro}
                       />
                     </div>
                   </details>

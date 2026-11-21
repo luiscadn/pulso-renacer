@@ -1,8 +1,8 @@
 "use client";
-import { useActionState, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
 import { Button, Chip, Field, FormStatus, Select, Textarea } from "@/components/ui";
 import { ESTADO_SUGERENCIA } from "@/lib/labels";
-import type { Resultado } from "@/lib/validacion";
 import { guardarRespuesta } from "../actions";
 import { MAX_RESUMEN } from "../esquemas";
 
@@ -14,16 +14,35 @@ type Props = {
   resumenPublico: string | null;
   respuesta: string | null;
   publicada: boolean;
+  /** Filtro de la bandeja en la que está la tarjeta (pendientes, vencidas…). */
+  filtro: string;
 };
 
 const OPCIONES_ESTADO = Object.entries(ESTADO_SUGERENCIA).map(([valor, etiqueta]) => ({ valor, etiqueta }));
 
+/**
+ * Al guardar, la tarjeta puede salir de la bandeja (por ejemplo, de «Pendientes» a «Respondidas»).
+ * Por eso, tras guardar, se vuelve a la bandeja con `?guardada=1` y el aviso lo muestra la página.
+ */
 export function EditorSugerencia(p: Props) {
-  const [estado, guardar, pendiente] = useActionState<Resultado<{ guardado: boolean }> | null, FormData>(guardarRespuesta, null);
+  const router = useRouter();
   const [publicada, setPublicada] = useState(p.publicada);
-  const error = estado && !estado.ok ? estado.error : undefined;
+  const [pendiente, empezar] = useTransition();
+  const [error, setError] = useState<string>();
+
+  function guardar(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const datos = new FormData(e.currentTarget);
+    setError(undefined);
+    empezar(async () => {
+      const r = await guardarRespuesta(datos);
+      if (r.ok) router.push(`/gestion/buzon?f=${encodeURIComponent(p.filtro)}&guardada=1`);
+      else setError(r.error);
+    });
+  }
+
   return (
-    <form action={guardar} className="flex flex-col gap-4">
+    <form onSubmit={guardar} className="flex flex-col gap-4">
       <input type="hidden" name="id" value={p.id} />
       <section aria-label="Propuesta original" className="rounded-xl2 bg-arena p-3">
         <p className="whitespace-pre-wrap text-base">{p.texto}</p>
@@ -59,10 +78,7 @@ export function EditorSugerencia(p: Props) {
       <Button type="submit" tamano="lg" cargando={pendiente}>
         Guardar
       </Button>
-      <FormStatus
-        estado={pendiente ? "cargando" : error ? "error" : estado?.ok ? "exito" : "inactivo"}
-        mensaje={pendiente ? "Guardando…" : error ?? (estado?.ok ? "Guardado." : undefined)}
-      />
+      <FormStatus estado={pendiente ? "cargando" : error ? "error" : "inactivo"} mensaje={pendiente ? "Guardando…" : error} />
     </form>
   );
 }
