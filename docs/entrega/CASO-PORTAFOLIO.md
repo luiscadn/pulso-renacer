@@ -24,8 +24,8 @@ registrar una consulta toma tres toques y los botones miden al menos 44 píxeles
 
 - **Un solo servicio y una sola base de datos.** Next.js 16 con App Router, Server Actions validadas con `zod` y PostgreSQL 16 con Prisma.
   Para menos de diez usuarios, un monolito es más fácil de operar y de explicar que cualquier arquitectura distribuida.
-- **Cero costo extra.** Sin analytics, correo ni almacenamiento externo. El piloto corre en el plan gratuito de Render; la ruta a
-  producción está calculada (≈ US$13 al mes).
+- **Cero costo extra.** Sin analytics, correo ni almacenamiento externo. El piloto corre en planes gratuitos (Render para la web y Neon
+  para la base de datos); la ruta a producción tiene su costo calculado en la ficha técnica.
 - **Roles sin cuentas.** Dos códigos (equipo y gestión) y una cookie firmada con `jose` (JWT HS256). Para un equipo pequeño, las cuentas
   individuales agregaban fricción sin ganar seguridad real, y lo declaré como riesgo en la ficha técnica.
 - **Zona horaria explícita.** Render corre en UTC, pero los días y las semanas son de Bogotá. Toda la lógica pasa por una sola función

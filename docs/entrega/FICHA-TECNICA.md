@@ -13,6 +13,8 @@ flowchart LR
   subgraph Render["Render (región Virginia)"]
     W["Web service<br/>Next.js 16 · App Router<br/>Server Actions · zod"]
     P["Middleware / proxy<br/>cookie de sesión (JWT HS256)"]
+  end
+  subgraph Neon["Neon (externo)"]
     DB[("PostgreSQL 16<br/>Prisma 6")]
   end
   B -- "HTTPS · cookie httpOnly pr_session" --> P --> W
@@ -20,8 +22,10 @@ flowchart LR
   W -- "HTML + RSC" --> B
 ```
 
-- **Sin servicios externos.** No hay analytics, correo ni almacenamiento de archivos. Todo vive en el mismo servicio web y en la misma base de datos.
-- **Un solo servicio web y una sola base.** Es suficiente para menos de 10 personas. Escalar sería cambiar de plan en Render, no reescribir.
+- **Sin analytics, correo ni almacenamiento de archivos.** Todo vive en el servicio web y en la base de datos.
+- **Base de datos externa (Neon).** `render.yaml` la toma de `DATABASE_URL`, que se configura a mano en Render. Es una decisión posterior a la
+  especificación, que decía Postgres en Render (principio 6 de `CLAUDE.md`). **Pendiente de confirmar** por la propietaria o el responsable técnico.
+- **Un solo servicio web y una sola base.** Es suficiente para menos de 10 personas. Escalar sería cambiar de plan, no reescribir.
 - **Zona horaria.** La lógica de días y semanas usa `America/Bogota` (`src/lib/fechas.ts`), porque Render corre en UTC.
 
 ## 2. Stack
@@ -31,7 +35,7 @@ flowchart LR
 | Framework | Next.js (App Router, TypeScript estricto, `src/`) | 16.4 |
 | Interfaz | React 19 · Tailwind CSS 4 · `lucide-react` (íconos) | Componentes de servidor por defecto |
 | Validación | `zod` en cada Server Action | Nunca se confía en el cliente para el rol |
-| Datos | Prisma 6 · PostgreSQL 16 | Migraciones con `prisma migrate deploy` en el build |
+| Datos | Prisma 6 · PostgreSQL 16 (Neon) | Migraciones con `prisma migrate deploy` en el build |
 | Sesión | `jose` (JWT HS256) en cookie `pr_session` | 30 días, httpOnly, secure en producción |
 | Fechas | `date-fns` + `@date-fns/tz` | Siempre en `America/Bogota` |
 | Gráficas y QR | `recharts` · `qrcode` | Tendencias del tablero · QR de acceso |
@@ -76,20 +80,23 @@ Todas las tablas de registros tienen `esDemo` para separar los datos de demostra
 
 **Aviso.** La primera vez se muestra un resumen del aviso de privacidad con enlace a `/privacidad`.
 
-## 5. Costos en Render
+## 5. Costos
 
-| Escenario | Servicio web | Base de datos | Otros | Total aprox. |
-|---|---|---|---|---|
-| **Piloto (gratis)** | Plan *free* (se duerme sin tráfico) | *free* — **expira a los 30 días** | — | US$0 |
-| **Producción** | *starter* — US$7/mes | *basic-256mb* — US$6/mes | Almacenamiento: no se usa hoy; si se agrega, cobra Render | **≈ US$13/mes** + extras |
+| Componente | Piloto (gratis) | Producción |
+|---|---|---|
+| Web en Render | Plan *free* (se duerme sin tráfico) | Plan *starter*: **US$7/mes** |
+| Base de datos en Neon | Plan gratuito de Neon. **Verificar sus límites** (almacenamiento, cómputo, pausa por inactividad) | Plan de pago de Neon según el uso. **Costo por confirmar** |
+| Almacenamiento de archivos | No se usa | No se usa; si se agrega, es costo adicional |
 
-> Los precios son los de la lista de Render al momento de redactar este documento. Verificarlos antes de contratar.
+> Los precios de Render son los de su lista al momento de redactar este documento. Los de Neon no se incluyen porque cambian según el plan:
+> verificarlos antes de contratar.
 
-**Piloto gratis, con advertencias:** la base *free* expira a los 30 días. Para no perder los datos del piloto, hay que **exportar los CSV** de `/gestion/exportar` antes de la fecha de vencimiento y decidir si se pasa a *basic-256mb*.
+**Piloto gratis, con advertencias:** el plan gratuito de la base tiene límites que pueden pausar o restringir la base. Para no perder los datos
+del piloto, hay que **exportar los CSV** de `/gestion/exportar` cada periodo y no depender de un solo respaldo.
 
 ## 6. Plan de sostenibilidad
 
-- **Quién administra.** La administradora es la responsable operativa (ingreso de códigos, mapa, bandeja del buzón, actas). La propietaria es la responsable de los datos. Una persona de respaldo técnico debe tener acceso al panel de Render.
+- **Quién administra.** La administradora es la responsable operativa (ingreso de códigos, mapa, bandeja del buzón, actas). La propietaria es la responsable de los datos. Una persona de respaldo técnico debe tener acceso al panel de Render y a la cuenta de Neon.
 - **Cómo se cambian los códigos.** `TEAM_CODE` (equipo) y `ADMIN_CODE` (gestión) están en las variables de entorno de Render (`sync: false`, no van en el repositorio). Se cambian en *Environment* del servicio. Cambiar un código no cierra las sesiones ya abiertas; si se necesita cerrarlas todas, se cambia `SESSION_SECRET`.
 - **Cómo se exportan los datos.** `/gestion/exportar` descarga cada tabla en CSV con BOM UTF-8 (abre bien en Excel). Las sugerencias salen sin firma.
 - **La salida digna.** Si el proyecto termina, los CSV se abren en **Google Sheets** (o Excel) y el equipo conserva su historial sin depender de la app. La app se puede apagar sin perder la información exportada.
@@ -100,7 +107,8 @@ Todas las tablas de registros tienen `esDemo` para separar los datos de demostra
 | Riesgo | Probabilidad / impacto | Mitigación |
 |---|---|---|
 | El plan gratis se duerme y la primera carga tarda | Alta / bajo | Abrir la app 5 minutos antes de usarla (ver `GUION-DEMO.md`) |
-| La base gratis expira a los 30 días y se pierden datos | Media / alto | Exportar CSV de forma periódica; migrar a *basic-256mb* antes del vencimiento |
+| La base gratuita de Neon se pausa o pierde datos por sus límites de plan | Media / alto | Exportar CSV de forma periódica; revisar los límites de Neon antes del piloto y decidir el plan de pago |
+| La base vive fuera de Render y su configuración depende de una variable manual | Media / medio | `DATABASE_URL` en *Environment* de Render (`sync: false`); documentar quién tiene acceso a ambas cuentas |
 | Un solo servicio: si cae, la app no responde | Baja / medio | Health check en `/api/health`; el equipo puede usar WhatsApp y la agenda como respaldo |
 | Código de ingreso compartido: cualquiera con el código entra | Media / medio | Es una decisión de diseño (no hay cuentas). Cambiar el código si alguien deja el equipo |
 | El límite de intentos de ingreso se pierde al reiniciar el servicio | Baja / bajo | Aceptado para un equipo de menos de 10 personas: un reinicio solo permite nuevos intentos, no da acceso |
