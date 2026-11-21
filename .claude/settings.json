@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Read", "Edit", "Write", "Glob", "Grep",
+      "Bash(npm *)", "Bash(npx *)", "Bash(node *)",
+      "Bash(git *)", "Bash(gh pr *)", "Bash(gh repo view *)", "Bash(gh run *)",
+      "Bash(docker compose *)", "Bash(bash scripts/*)",
+      "Bash(ls *)", "Bash(cat *)", "Bash(head *)", "Bash(tail *)", "Bash(wc *)", "Bash(find *)", "Bash(grep *)",
+      "Bash(mkdir *)", "Bash(cp *)", "Bash(mv *)", "Bash(rsync *)", "Bash(touch *)",
+      "Bash(rm -rf node_modules*)", "Bash(rm -rf .next*)", "Bash(rm -rf /tmp/scaffold*)",
+      "Bash(curl -s http://localhost*)", "Bash(curl -sf http://localhost*)", "Bash(lsof *)", "Bash(kill *)", "Bash(sleep *)",
+      "WebFetch(domain:nextjs.org)", "WebFetch(domain:www.prisma.io)", "WebFetch(domain:render.com)", "WebFetch(domain:tailwindcss.com)"
+    ],
+    "deny": [
+      "Bash(git push --force*)", "Bash(git push -f*)", "Bash(git reset --hard origin*)",
+      "Bash(npx prisma migrate reset*)", "Bash(rm -rf /*)", "Bash(rm -rf ~*)"
+    ]
+  }
+}

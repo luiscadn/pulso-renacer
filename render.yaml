@@ -1,0 +1,39 @@
+# Render Blueprint — Pulso Renacer
+# Despliegue: Dashboard de Render → New → Blueprint → elegir este repo.
+# Plan gratis para la entrega y el piloto. Para producción: web "starter" (US$7/mes) + BD "basic-256mb" (US$6/mes).
+services:
+  - type: web
+    name: pulso-renacer
+    runtime: node
+    plan: free
+    region: virginia
+    branch: main
+    autoDeploy: true
+    buildCommand: npm ci && npx prisma generate && npx prisma migrate deploy && npm run build && npm run db:seed
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: TZ
+        value: America/Bogota
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pulso-renacer-db
+          property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: TEAM_CODE
+        sync: false
+      - key: ADMIN_CODE
+        sync: false
+      - key: DEMO_MODE
+        value: "true"
+
+databases:
+  - name: pulso-renacer-db
+    plan: free
+    region: virginia
+    databaseName: pulso_renacer
+    user: pulso_renacer
+    postgresMajorVersion: "16"

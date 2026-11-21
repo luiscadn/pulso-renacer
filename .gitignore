@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+coverage/
+.env
+.env.*
+!.env.example
+.claude/worktrees/
+.claude/settings.local.json
+*.log
+.DS_Store
+next-env.d.ts
+test-results/
+playwright-report/
