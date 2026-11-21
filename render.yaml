@@ -1,6 +1,8 @@
-# Render Blueprint — Pulso Renacer
-# Despliegue: Dashboard de Render → New → Blueprint → elegir este repo.
-# Plan gratis para la entrega y el piloto. Para producción: web "starter" (US$7/mes) + BD "basic-256mb" (US$6/mes).
+# Render Blueprint — Pulso Renacer (solo el servicio web).
+# Arquitectura: Next.js en Render + Postgres en Neon (externo, us-east-1, plan free sin expiración).
+# DATABASE_URL NO está en este archivo: se pega como variable secreta en Render (Environment) con la cadena de conexión de Neon.
+# Despliegue: Dashboard de Render → New → Blueprint → elegir este repo → pegar DATABASE_URL, TEAM_CODE y ADMIN_CODE.
+# Piloto: web free (US$0). Producción: web "starter" (US$7/mes); Neon free mientras quepa en su límite gratis.
 services:
   - type: web
     name: pulso-renacer

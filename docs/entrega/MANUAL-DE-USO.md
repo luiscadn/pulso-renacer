@@ -6,7 +6,7 @@ registrar consultas, ver qué hicimos con cada propuesta, responder un pulso an�
 
 ## Guía de 5 minutos para empezar
 
-1. **Abre la app** en el celular: el enlace lo comparte la administración (con el QR de Ajustes). La primera carga puede tardar un poco.
+1. **Abre la app** en el celular en **https://pulso-renacer.onrender.com**, o escanea el código QR de acceso (`docs/entrega/qr-acceso.png`). La primera carga puede tardar un poco porque el servicio gratuito se duerme cuando no se usa.
 2. **Ingresa con el código** que te dio la administración. Es el código del equipo (o el de gestión, si te toca).
 3. **Lee el aviso de privacidad** y toca **«Entendido»**. No pedimos tu nombre, tu correo ni tu IP.
 4. **Prueba con un caso real:** toca **¿A quién acudo?**, escribe una palabra (por ejemplo «turno») y abre la tarjeta.

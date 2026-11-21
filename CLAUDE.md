@@ -31,7 +31,7 @@ La especificación funcional completa está en `docs/SPEC.md`. Esa es la fuente 
 4. **Zona horaria America/Bogota** para toda la lógica de días y semanas (Render corre en UTC). Usa siempre `src/lib/fechas.ts`.
 5. **Honestidad con los datos.** Si `DEMO_MODE=true` se muestra un banner fijo «Datos de demostración». Los datos demo se marcan con
    `esDemo=true` y se pueden borrar desde Ajustes.
-6. **Cero costo extra.** No agregues servicios externos (analytics, correo, storage). Todo vive en Next.js + Postgres en Render.
+6. **Cero costo extra.** No agregues servicios externos (analytics, correo, storage). Next.js en Render + Postgres en Neon (externo, `DATABASE_URL` como variable secreta en Render).
 
 ## Stack (fijo)
 - Next.js (App Router, TypeScript strict, `src/`), Tailwind CSS, Server Actions con validación en `zod`.

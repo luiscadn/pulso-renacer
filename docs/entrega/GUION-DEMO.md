@@ -5,8 +5,8 @@ bandeja de gestión y el tablero. Todo en menos de dos minutos.
 
 ## Antes de empezar (5 minutos antes)
 
-1. **Abre la URL pública en el celular y en el computador.** El plan gratuito se duerme sin uso y la primera carga tarda. No empieces la
-   demo con la app dormida.
+1. **Abre https://pulso-renacer.onrender.com en el celular y en el computador.** El plan gratuito se duerme sin uso y la primera carga tarda.
+   No empieces la demo con la app dormida. El QR de acceso está en `docs/entrega/qr-acceso.png` para mostrarlo en pantalla.
 2. **Ingresa como equipo en el celular** y como **gestión en el computador**. Ten los códigos a mano en papel, no en pantalla.
 3. Confirma que aparece el banner **«Datos de demostración»**: así el público sabe que los números son de ejemplo.
 4. Pon el celular en **390 px de ancho** (o usa el modo de dispositivo del navegador) y el computador a pantalla completa en `/gestion/tablero`.

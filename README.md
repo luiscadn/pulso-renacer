@@ -7,7 +7,8 @@ indicadores de la estrategia. La especificación completa está en [`docs/SPEC.m
 
 ## Stack
 Next.js 16 (App Router, TypeScript strict) · Tailwind CSS 4 · Server Actions + zod · Prisma 6 + PostgreSQL 16 ·
-sesión con cookie JWT firmada (`jose`) · `date-fns` + `@date-fns/tz` · recharts · vitest · GitHub Actions · Render Blueprint.
+sesión con cookie JWT firmada (`jose`) · `date-fns` + `@date-fns/tz` · recharts · vitest · Playwright · GitHub Actions ·
+Render Blueprint (web) + Neon Postgres (base de datos).
 
 ## Correrlo localmente
 ```bash
@@ -18,10 +19,17 @@ npm run dev                          # http://localhost:3000
 ```
 Códigos locales: equipo `2026`, gestión `renacer-gestion`. Verificación: `npm run lint && npm run typecheck && npm test && npm run build`.
 
-## Despliegue (Render)
-`render.yaml` define el servicio web y la BD Postgres (plan gratis). En cada push a `main`, Render ejecuta
-`npm ci && npx prisma generate && npx prisma migrate deploy && npm run build && npm run db:seed` (la siembra es idempotente)
-y revisa `/api/health`. Pasos: Dashboard → **New → Blueprint** → elegir el repo → escribir `TEAM_CODE` y `ADMIN_CODE` → **Apply**.
+## Despliegue (Render + Neon)
+- **App pública:** https://pulso-renacer.onrender.com (salud: `/api/health`). QR de acceso: `public/qr-acceso.png`.
+- **Arquitectura:** Next.js en Render (`render.yaml`) + Postgres en **Neon** (externo, us-east-1, plan free sin expiración).
+- En cada push a `main`, Render ejecuta `npm ci && npx prisma generate && npx prisma migrate deploy && npm run build && npm run db:seed`
+  (la siembra es idempotente) y revisa `/api/health`.
+- Pasos: Dashboard → **New → Blueprint** → elegir el repo → pegar `DATABASE_URL` (cadena de conexión de Neon, como variable
+  secreta) → escribir `TEAM_CODE` y `ADMIN_CODE` → **Apply**.
+
+## Pruebas E2E
+`npm run e2e` (Playwright) recorre los dos roles en 390 × 844 contra `npm run build && npm run start` con la BD local.
+Requiere `npx playwright install chromium` la primera vez. En CI es un job opcional y no bloqueante.
 
 ## Arquitectura y privacidad por diseño
 - **Sin cuentas de usuario.** Se ingresa con un código compartido por rol (`equipo` o `gestion`). La sesión es una cookie

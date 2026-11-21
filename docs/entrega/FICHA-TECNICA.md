@@ -23,8 +23,9 @@ flowchart LR
 ```
 
 - **Sin analytics, correo ni almacenamiento de archivos.** Todo vive en el servicio web y en la base de datos.
-- **Base de datos externa (Neon).** `render.yaml` la toma de `DATABASE_URL`, que se configura a mano en Render. Es una decisión posterior a la
-  especificación, que decía Postgres en Render (principio 6 de `CLAUDE.md`). **Pendiente de confirmar** por la propietaria o el responsable técnico.
+- **Base de datos en Neon (externo).** Postgres 16 en Neon (us-east-1, plan free sin expiración). `DATABASE_URL` es una variable
+  secreta configurada en Render. La decisión responde a que Render permite una sola base de datos gratuita por cuenta, que ya estaba
+  ocupada. Principio 6 de `CLAUDE.md`: Next.js en Render + Postgres en Neon.
 - **Un solo servicio web y una sola base.** Es suficiente para menos de 10 personas. Escalar sería cambiar de plan, no reescribir.
 - **Zona horaria.** La lógica de días y semanas usa `America/Bogota` (`src/lib/fechas.ts`), porque Render corre en UTC.
 
@@ -40,7 +41,7 @@ flowchart LR
 | Fechas | `date-fns` + `@date-fns/tz` | Siempre en `America/Bogota` |
 | Gráficas y QR | `recharts` · `qrcode` | Tendencias del tablero · QR de acceso |
 | Pruebas | Vitest (166 pruebas unitarias) · Playwright (E2E) | CI en GitHub Actions |
-| Despliegue | Render Blueprint (`render.yaml`) | `autoDeploy` desde `main` |
+| Despliegue | Render Blueprint (`render.yaml`) para la web; Neon para la base | `autoDeploy` desde `main` |
 
 ## 3. Modelo de datos
 
@@ -82,17 +83,18 @@ Todas las tablas de registros tienen `esDemo` para separar los datos de demostra
 
 ## 5. Costos
 
-| Componente | Piloto (gratis) | Producción |
+| Componente | Piloto | Producción |
 |---|---|---|
-| Web en Render | Plan *free* (se duerme sin tráfico) | Plan *starter*: **US$7/mes** |
-| Base de datos en Neon | Plan gratuito de Neon. **Verificar sus límites** (almacenamiento, cómputo, pausa por inactividad) | Plan de pago de Neon según el uso. **Costo por confirmar** |
-| Almacenamiento de archivos | No se usa | No se usa; si se agrega, es costo adicional |
+| Web en Render | Plan *free*: **US$0** (se duerme sin tráfico) | Plan *Starter*: **US$7/mes** |
+| Base de datos en Neon | Plan *free*: **US$0** (us-east-1, sin expiración) | Plan *free* de Neon mientras quepa en su límite gratis |
+| Almacenamiento de archivos | No se usa | No se usa |
 
-> Los precios de Render son los de su lista al momento de redactar este documento. Los de Neon no se incluyen porque cambian según el plan:
-> verificarlos antes de contratar.
+**Total:** piloto **US$0**; producción **≈ US$7/mes** (Render Starter) más Neon free, mientras los datos quepan en su límite gratuito.
+Si el volumen lo supera, el costo de Neon depende de su plan de pago; revisar antes de llegar al límite.
 
-**Piloto gratis, con advertencias:** el plan gratuito de la base tiene límites que pueden pausar o restringir la base. Para no perder los datos
-del piloto, hay que **exportar los CSV** de `/gestion/exportar` cada periodo y no depender de un solo respaldo.
+Los precios son los de Render y Neon al momento de redactar este documento. Verificarlos antes de contratar.
+
+**Recomendación:** exportar los CSV de `/gestion/exportar` cada periodo, como copia de seguridad fuera de la base de datos.
 
 ## 6. Plan de sostenibilidad
 
@@ -106,9 +108,9 @@ del piloto, hay que **exportar los CSV** de `/gestion/exportar` cada periodo y n
 
 | Riesgo | Probabilidad / impacto | Mitigación |
 |---|---|---|
-| El plan gratis se duerme y la primera carga tarda | Alta / bajo | Abrir la app 5 minutos antes de usarla (ver `GUION-DEMO.md`) |
-| La base gratuita de Neon se pausa o pierde datos por sus límites de plan | Media / alto | Exportar CSV de forma periódica; revisar los límites de Neon antes del piloto y decidir el plan de pago |
-| La base vive fuera de Render y su configuración depende de una variable manual | Media / medio | `DATABASE_URL` en *Environment* de Render (`sync: false`); documentar quién tiene acceso a ambas cuentas |
+| El plan gratis de Render se duerme tras inactividad y la primera carga tarda | Alta / bajo | Abrir la app 5 minutos antes de usarla (ver `GUION-DEMO.md`), o pasar a Starter (US$7/mes) |
+| El límite del plan gratis de Neon se supera y la base deja de aceptar escrituras | Baja / alto | Exportar CSV periódicamente; vigilar el uso en el panel de Neon |
+| La base vive fuera de Render y su configuración depende de una variable manual | Media / medio | `DATABASE_URL` en *Environment* de Render (variable secreta); documentar quién tiene acceso a ambas cuentas |
 | Un solo servicio: si cae, la app no responde | Baja / medio | Health check en `/api/health`; el equipo puede usar WhatsApp y la agenda como respaldo |
 | Código de ingreso compartido: cualquiera con el código entra | Media / medio | Es una decisión de diseño (no hay cuentas). Cambiar el código si alguien deja el equipo |
 | El límite de intentos de ingreso se pierde al reiniciar el servicio | Baja / bajo | Aceptado para un equipo de menos de 10 personas: un reinicio solo permite nuevos intentos, no da acceso |
