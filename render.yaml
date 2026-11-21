@@ -18,9 +18,7 @@ services:
       - key: TZ
         value: America/Bogota
       - key: DATABASE_URL
-        fromDatabase:
-          name: pulso-renacer-db
-          property: connectionString
+        sync: false
       - key: SESSION_SECRET
         generateValue: true
       - key: TEAM_CODE
@@ -30,10 +28,4 @@ services:
       - key: DEMO_MODE
         value: "true"
 
-databases:
-  - name: pulso-renacer-db
-    plan: free
-    region: virginia
-    databaseName: pulso_renacer
-    user: pulso_renacer
-    postgresMajorVersion: "16"
+
