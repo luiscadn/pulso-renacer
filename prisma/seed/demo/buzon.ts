@@ -43,6 +43,27 @@ export async function seedDemoBuzon(): Promise<void> {
       respondidaEn: dia(2),
     },
     {
+      fecha: dia(12), categoria: "INSUMOS", estado: "IMPLEMENTADA", publicada: true,
+      texto: "Los guantes de la talla S se acaban primero. Pedir más de esa talla evitaría quedarnos cortas.",
+      resumenPublico: "Pedir más guantes de talla S.",
+      respuesta: "Ajustamos el pedido mensual: ahora llegan más guantes de talla S.",
+      respondidaEn: dia(7),
+    },
+    {
+      fecha: dia(10), categoria: "AGENDA", estado: "IMPLEMENTADA", publicada: true,
+      texto: "Sería útil dejar 15 minutos entre citas de láser para preparar la cabina con calma.",
+      resumenPublico: "Dejar 15 minutos entre citas de láser para preparar la cabina.",
+      respuesta: "Desde esta semana las citas de láser se agendan con 15 minutos de margen.",
+      respondidaEn: dia(5),
+    },
+    {
+      fecha: dia(9), categoria: "OTRO", estado: "NO_IMPLEMENTADA", publicada: true,
+      texto: "¿Podríamos tener un dispensador de agua fría para las pacientes en la sala de espera?",
+      resumenPublico: "Dispensador de agua fría en la sala de espera.",
+      respuesta: "Por ahora no cabe en el presupuesto; mientras tanto ofreceremos agua en jarra y lo revisamos el próximo trimestre.",
+      respondidaEn: dia(3),
+    },
+    {
       fecha: dia(18), categoria: "OTRO", estado: "RECIBIDA", publicada: false,
       texto: "Sería lindo tener un espacio para tomar el almuerzo con calma, sin atender el celular de la recepción.",
     },

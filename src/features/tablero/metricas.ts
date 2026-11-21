@@ -22,7 +22,8 @@ import { claveDeSoloFecha, claveDia, fechaLimiteSugerencia, horasEntre, semanaIS
 
 // ───────────────────────── Tipos ─────────────────────────
 
-export type EstadoIndicador = "cumple" | "en_camino" | "no_cumple" | "insuficiente";
+import type { EstadoIndicador } from "@/components/ui/StatCard";
+export type { EstadoIndicador };
 export type FormatoIndicador = "porcentaje" | "promedio" | "conteo" | "fraccion";
 export type IdIndicador =
   | "I1" | "I2" | "I3" | "I4" | "I5" | "I6" | "I7" | "I8"

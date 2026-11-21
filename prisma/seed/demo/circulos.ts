@@ -1,4 +1,4 @@
-// Datos demo de círculos y mediaciones (SPEC §8): 2 actas y 3 mediaciones. Sin nombres de personas.
+// Datos demo de círculos y mediaciones (SPEC §8): 2 actas y 5 mediaciones (3 cerradas dentro de los últimos 14 días para que I14 no quede en «insuficiente»). Sin nombres de personas.
 import { db } from "../../../src/lib/db";
 import { soloFecha, sumarDias } from "../../../src/lib/fechas";
 
@@ -29,6 +29,8 @@ export async function seedDemoCirculos(): Promise<void> {
     data: [
       { fecha: soloFecha(sumarDias(hoy, -22)), resultado: "ACUERDO", seguimientoHecho: true, esDemo: true },
       { fecha: soloFecha(sumarDias(hoy, -12)), resultado: "ACUERDO", seguimientoHecho: true, esDemo: true },
+      { fecha: soloFecha(sumarDias(hoy, -10)), resultado: "ACUERDO", seguimientoHecho: true, esDemo: true },
+      { fecha: soloFecha(sumarDias(hoy, -8)), resultado: "ACUERDO", seguimientoHecho: false, esDemo: true },
       { fecha: soloFecha(sumarDias(hoy, -3)), resultado: "EN_CURSO", seguimientoHecho: false, esDemo: true },
     ],
   });

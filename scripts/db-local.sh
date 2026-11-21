@@ -17,5 +17,5 @@ DEMO_MODE=true
 ENV
 cp .env.local .env   # Prisma CLI lee .env
 if [ -d prisma/migrations ]; then npx prisma migrate deploy; fi
-if npm run | grep -q "db:seed:demo"; then npm run db:seed:demo; fi
+if npm run | grep -q "db:seed:demo"; then set -a; . ./.env.local; set +a; npm run db:seed:demo; fi
 echo "✅ BD ${DB} lista. Códigos locales → equipo: 2026 · gestión: renacer-gestion"
