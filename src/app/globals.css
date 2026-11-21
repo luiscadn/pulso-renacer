@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+/* Tokens de Renacer (SPEC §4). Reemplazables por la paleta oficial. */
+:root {
+  --primario: #6b8f71;
+  --primario-osc: #4e6b53;
+  --arena: #f4efe6;
+  --crema: #fbf8f3;
+  --texto: #2f2a26;
+  --texto-suave: #5e5650;
+  --acento: #c9a27e;
+  --verde: #3e8e5a;
+  --amarillo: #d9a21b;
+  --rojo: #c2473a;
+  --borde: #e6ddd0;
+  --radio: 16px;
+  --sombra: 0 1px 2px rgb(47 42 38 / 0.06), 0 4px 16px rgb(47 42 38 / 0.06);
+}
+
+@theme inline {
+  --color-primario: var(--primario);
+  --color-primario-osc: var(--primario-osc);
+  --color-arena: var(--arena);
+  --color-crema: var(--crema);
+  --color-texto: var(--texto);
+  --color-texto-suave: var(--texto-suave);
+  --color-acento: var(--acento);
+  --color-verde: var(--verde);
+  --color-amarillo: var(--amarillo);
+  --color-rojo: var(--rojo);
+  --color-borde: var(--borde);
+  /* Variantes oscuras para texto sobre fondo claro (contraste AA) */
+  --color-verde-texto: #2c6b42;
+  --color-amarillo-texto: #7a5a06;
+  --color-rojo-texto: #9e3328;
+  --radius-xl2: var(--radio);
+  --shadow-suave: var(--sombra);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--crema);
+  color: var(--texto);
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+}
+
+:focus-visible {
+  outline: 3px solid var(--primario-osc);
+  outline-offset: 2px;
+}
+
+@media print {
+  .no-imprimir {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
+}

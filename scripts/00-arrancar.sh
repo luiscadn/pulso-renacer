@@ -22,4 +22,4 @@ fi
 
 docker compose up -d --wait db
 echo "✅ Repo y Postgres listos. Lanzando el agente de fundación (acepta la confianza del directorio si te la pide)…"
-claude -n fundacion "Ejecuta al pie de la letra las instrucciones de prompts/00-fundacion.md. Trabaja de forma autónoma hasta el push a main y el resumen final."
+claude --model "${MODELO:-sonnet}" -n fundacion "Ejecuta al pie de la letra las instrucciones de prompts/00-fundacion.md. Trabaja de forma autónoma hasta el push a main y el resumen final."

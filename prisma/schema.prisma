@@ -1,0 +1,182 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RolConsultante {
+  CABINA
+  RECEPCION
+  PRESTADORA
+}
+enum TipoSituacion {
+  AGENDA
+  PRODUCTO_PROMOCION
+  PROTOCOLO
+  CONFLICTO
+  PERMISO_TURNO
+  OTRO
+}
+enum Destinatario {
+  PROPIETARIA
+  ADMINISTRADORA
+  SECRETARIA
+  RECEPCION
+  COLABORADORA_ANTIGUA
+}
+enum Decisor {
+  ROL_DELEGADO
+  PROPIETARIA
+}
+enum TiempoRespuesta {
+  MISMO_DIA
+  MENOS_24H
+  MAS_24H
+  SIN_RESPUESTA
+}
+enum MotivoEscalamiento {
+  NO_CORRESPONDIA
+  ROL_PREFIRIO_NO_DECIDIR
+  PIDIO_HABLAR_CON_DUENA
+  OTRO
+}
+enum CategoriaSugerencia {
+  CABINA
+  AGENDA
+  INSUMOS
+  PROTOCOLOS
+  OTRO
+}
+enum EstadoSugerencia {
+  RECIBIDA
+  EN_REVISION
+  IMPLEMENTADA
+  NO_IMPLEMENTADA
+}
+enum ColorSemaforo {
+  VERDE
+  AMARILLO
+  ROJO
+}
+enum MotivoAviso {
+  RETRASO_PACIENTE
+  REPROGRAMACION
+  CABINA_OCUPADA
+  OTRO
+}
+enum ResultadoMediacion {
+  EN_CURSO
+  ACUERDO
+  SIN_ACUERDO_ESCALADA
+}
+
+model Consulta {
+  id                 String              @id @default(cuid())
+  abiertaEn          DateTime            @default(now())
+  cerradaEn          DateTime?
+  quienConsulta      RolConsultante
+  tipo               TipoSituacion
+  dirigidaA          Destinatario
+  recibioRespuesta   Boolean?
+  tiempoRespuesta    TiempoRespuesta?
+  decidio            Decisor?
+  escalada           Boolean             @default(false)
+  motivoEscalamiento MotivoEscalamiento?
+  revertida          Boolean             @default(false)
+  revertidaPor       Destinatario?
+  esDemo             Boolean             @default(false)
+
+  @@index([abiertaEn])
+}
+
+model Sugerencia {
+  id             String              @id @default(cuid())
+  fecha          DateTime            @db.Date
+  categoria      CategoriaSugerencia
+  texto          String              @db.VarChar(800)
+  firma          String?             @db.VarChar(80)
+  estado         EstadoSugerencia    @default(RECIBIDA)
+  resumenPublico String?             @db.VarChar(200)
+  respuesta      String?             @db.VarChar(800)
+  respondidaEn   DateTime?           @db.Date
+  publicada      Boolean             @default(false)
+  esDemo         Boolean             @default(false)
+
+  @@index([fecha])
+}
+
+model AvisoAgenda {
+  id                  String        @id @default(cuid())
+  creadoEn            DateTime      @default(now())
+  color               ColorSemaforo
+  motivo              MotivoAviso
+  minutosRetraso      Int?
+  minutosAnticipacion Int
+  esDemo              Boolean       @default(false)
+
+  @@index([creadoEn])
+}
+
+model RespuestaPulso {
+  id     String   @id @default(cuid())
+  semana String
+  fecha  DateTime @db.Date
+  p1     Int
+  p2     Int
+  p3     Int
+  p4     Int
+  p5     Int
+  p6     Int
+  esDemo Boolean  @default(false)
+
+  @@index([semana])
+}
+
+model RespuestaPulsoRoles {
+  id     String   @id @default(cuid())
+  semana String
+  fecha  DateTime @db.Date
+  p7     Int
+  esDemo Boolean  @default(false)
+}
+
+model ActaCirculo {
+  id        String   @id @default(cuid())
+  fecha     DateTime @db.Date
+  funciono  String   @db.VarChar(300)
+  seTrabo   String   @db.VarChar(300)
+  carga     String   @db.VarChar(300)
+  acordamos String   @db.VarChar(300)
+  esDemo    Boolean  @default(false)
+}
+
+model Mediacion {
+  id               String             @id @default(cuid())
+  fecha            DateTime           @db.Date
+  resultado        ResultadoMediacion @default(EN_CURSO)
+  seguimientoHecho Boolean            @default(false)
+  esDemo           Boolean            @default(false)
+}
+
+model SituacionMapa {
+  id             String        @id @default(cuid())
+  orden          Int
+  titulo         String        @db.VarChar(120)
+  ejemplo        String        @db.VarChar(300)
+  tipo           TipoSituacion
+  quienResuelve  String        @db.VarChar(120)
+  tiempoEsperado String        @db.VarChar(80)
+  cuandoEscalar  String        @db.VarChar(300)
+  comoHacerlo    String?       @db.VarChar(300)
+  porValidar     Boolean       @default(true)
+  activo         Boolean       @default(true)
+  actualizadoEn  DateTime      @updatedAt
+}
+
+model Ajuste {
+  clave String @id
+  valor String
+}

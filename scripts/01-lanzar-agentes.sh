@@ -24,12 +24,11 @@ for m in $MODULOS; do
   fi
   instr="Eres el agente '${nombre}'. Ya estás en tu worktree, en la rama ${rama}. Lee prompts/_comun-fase1.md y luego ejecuta al pie de la letra prompts/${m}.md. Trabaja de forma autónoma hasta hacer push de tu rama y abrir el PR."
   extra=(--permission-mode "$MODO")
-  [ -n "${MODELO:-}" ] && extra+=(--model "$MODELO")
   (
     cd "$dir"
-    if ! claude --bg --name "$nombre" "${extra[@]}" "$instr"; then
+    if ! claude --bg --model "${MODELO:-sonnet}" --name "$nombre" "${extra[@]}" "$instr"; then
       echo "⚠️  Reintentando '$nombre' sin flags extra (usa defaultMode de .claude/settings.json)…"
-      claude --bg --name "$nombre" "$instr"
+      claude --bg --model "${MODELO:-sonnet}" --name "$nombre" "$instr"
     fi
   )
   sleep 5
