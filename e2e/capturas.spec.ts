@@ -30,6 +30,8 @@ async function capturar(page: Page, ruta: string, vista: string) {
   await page.goto(ruta);
   await page.waitForLoadState("networkidle");
   await cerrarAvisoPrivacidad(page);
+  // La barra inferior es fija: en una captura de página completa taparía el contenido. Solo en la captura, se pone en flujo normal.
+  await page.addStyleTag({ content: 'nav[aria-label="Navegación principal"]{position:static !important}' });
   await page.screenshot({ path: join(CARPETA, `${slug(ruta)}-${vista}.png`), fullPage: true });
 }
 

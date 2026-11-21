@@ -10,6 +10,8 @@ export async function cerrarAvisoPrivacidad(page: Page) {
   try {
     await entendido.waitFor({ state: "visible", timeout: 3_000 });
     await entendido.click();
+    // Esperar a que el modal se cierre del todo: si no, la captura queda con el botón en estado de carga.
+    await entendido.waitFor({ state: "hidden", timeout: 5_000 });
   } catch {
     // Ya se cerró en esta sesión: nada que hacer.
   }
