@@ -21,7 +21,7 @@ export async function QrAcceso() {
       <CardTitle>Compartir acceso al equipo</CardTitle>
       <p className="text-sm text-texto-suave">Quien escanee este código llega a la página de ingreso. El código de acceso se comparte aparte.</p>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={png} alt={`Código QR que lleva a ${url}`} width={240} height={240} className="rounded-xl2 border border-borde" />
+      <img src={png} alt={`Código QR que lleva a ${url}`} width={240} height={240} className="rounded-xl2 border-2 border-borde" />
       <p className="break-all text-sm">{url}</p>
       <a href={png} download="pulso-renacer-qr.png" className={clasesBoton("secundario")}>
         <Download aria-hidden className="size-5" />

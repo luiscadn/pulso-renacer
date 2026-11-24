@@ -15,7 +15,7 @@ const ITEMS = [
 export function BarraInferior() {
   const ruta = usePathname();
   return (
-    <nav aria-label="Navegación principal" className="no-imprimir fixed inset-x-0 bottom-0 z-30 border-t border-borde bg-white/95 backdrop-blur pb-[env(safe-area-inset-bottom)]">
+    <nav aria-label="Navegación principal" className="no-imprimir fixed inset-x-0 bottom-0 z-30 border-t-2 border-borde bg-white/95 backdrop-blur pb-[env(safe-area-inset-bottom)]">
       <ul className="mx-auto grid max-w-2xl grid-cols-5">
         {ITEMS.map(({ href, etiqueta, Icono }) => {
           const activo = ruta === href || ruta.startsWith(`${href}/`);

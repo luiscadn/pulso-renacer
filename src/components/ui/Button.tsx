@@ -6,10 +6,10 @@ export type VarianteBoton = "primario" | "secundario" | "fantasma" | "peligro";
 export type TamanoBoton = "md" | "lg";
 
 const variantes: Record<VarianteBoton, string> = {
-  primario: "bg-primario-osc text-white hover:bg-[#435d48] shadow-suave",
-  secundario: "bg-white text-primario-osc border border-primario hover:bg-arena",
+  primario: "bg-vino text-white hover:bg-vino-osc shadow-suave",
+  secundario: "rounded-full bg-white text-vino border-2 border-rosa hover:bg-blush",
   fantasma: "bg-transparent text-primario-osc hover:bg-arena",
-  peligro: "bg-rojo-texto text-white hover:bg-[#86291f]",
+  peligro: "bg-rojo-texto text-white hover:bg-[#7e232a]",
 };
 const tamanos: Record<TamanoBoton, string> = {
   md: "min-h-11 px-4 text-base",

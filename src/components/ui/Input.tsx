@@ -2,7 +2,7 @@ import type { InputHTMLAttributes, SelectHTMLAttributes } from "react";
 import { cn } from "./cn";
 
 export const clasesControl =
-  "w-full min-h-12 rounded-xl2 border border-borde bg-white px-4 text-base text-texto placeholder:text-texto-suave/70 " +
+  "w-full min-h-12 rounded-xl2 border-2 border-borde bg-white px-4 text-base text-texto placeholder:text-texto-suave/70 " +
   "focus:border-primario-osc focus:outline-none focus-visible:outline-[3px] aria-[invalid=true]:border-rojo";
 
 export function Input({ className, ...rest }: InputHTMLAttributes<HTMLInputElement>) {

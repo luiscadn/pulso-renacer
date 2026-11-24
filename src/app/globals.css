@@ -2,41 +2,54 @@
 
 /* Tokens de Renacer (SPEC §4). Reemplazables por la paleta oficial. */
 :root {
-  --primario: #6b8f71;
-  --primario-osc: #4e6b53;
-  --arena: #f4efe6;
-  --crema: #fbf8f3;
-  --texto: #2f2a26;
-  --texto-suave: #5e5650;
-  --acento: #c9a27e;
-  --verde: #3e8e5a;
-  --amarillo: #d9a21b;
-  --rojo: #c2473a;
-  --borde: #e6ddd0;
-  --radio: 16px;
-  --sombra: 0 1px 2px rgb(47 42 38 / 0.06), 0 4px 16px rgb(47 42 38 / 0.06);
+  --vino: #8c4256;
+  --vino-osc: #6e2f40;
+  --rosa: #d58b91;
+  --rosa-suave: #f1a7a9;
+  --rosa-texto: #b25a66; /* rosa con contraste AA para texto grande */
+  --blush: #fbe3e3;
+  --fondo: #f7efef;
+  --crema: #fffaf5;
+  --borde: #e8c9c6;
+  --texto: #4a2f37;
+  --gris: #7e6068;
+  --verde: #5f936e;
+  --amarillo: #d9a03a;
+  --rojo: #c2474f;
+  --radio: 22px;
+  --sombra: 0 1px 2px rgb(140 66 86 / 0.08), 0 6px 20px rgb(213 139 145 / 0.18);
 }
 
 @theme inline {
-  --color-primario: var(--primario);
-  --color-primario-osc: var(--primario-osc);
-  --color-arena: var(--arena);
+  /* Los nombres de la fase 1 se conservan y apuntan a la paleta de la marca */
+  --color-primario: var(--vino);
+  --color-primario-osc: var(--vino-osc);
+  --color-arena: var(--blush);
   --color-crema: var(--crema);
   --color-texto: var(--texto);
-  --color-texto-suave: var(--texto-suave);
-  --color-acento: var(--acento);
+  --color-texto-suave: var(--gris);
+  --color-acento: var(--rosa-suave);
   --color-verde: var(--verde);
   --color-amarillo: var(--amarillo);
   --color-rojo: var(--rojo);
   --color-borde: var(--borde);
+  --color-vino: var(--vino);
+  --color-vino-osc: var(--vino-osc);
+  --color-rosa: var(--rosa);
+  --color-rosa-suave: var(--rosa-suave);
+  --color-rosa-texto: var(--rosa-texto);
+  --color-blush: var(--blush);
+  --color-fondo: var(--fondo);
+  /* «Blanco» de la marca: crema cálido (fondos de tarjetas y texto sobre botones) */
+  --color-white: var(--crema);
   /* Variantes oscuras para texto sobre fondo claro (contraste AA) */
-  --color-verde-texto: #2c6b42;
+  --color-verde-texto: #3b6a49;
   --color-amarillo-texto: #7a5a06;
-  --color-rojo-texto: #9e3328;
+  --color-rojo-texto: #9c2f37;
   --radius-xl2: var(--radio);
   --shadow-suave: var(--sombra);
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-cormorant), ui-serif, Georgia, serif;
 }
 
 html {
@@ -44,7 +57,7 @@ html {
 }
 
 body {
-  background: var(--crema);
+  background: var(--fondo);
   color: var(--texto);
   font-family: var(--font-sans);
 }
@@ -53,6 +66,15 @@ h1,
 h2,
 h3 {
   font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--vino);
+  letter-spacing: 0.005em;
+}
+
+/* Decoración de marca: nunca captura toques ni lecturas */
+.decor {
+  pointer-events: none;
+  user-select: none;
 }
 
 :focus-visible {

@@ -28,7 +28,7 @@ export function DatosDemo() {
         <Button variante="secundario" onClick={() => setPidiendo("borrar")} disabled={pendiente}>Borrar datos de demostración</Button>
       </div>
       {pidiendo && (
-        <div role="alertdialog" aria-labelledby="confirmar-titulo" className="flex flex-col gap-3 rounded-xl2 border border-borde bg-arena p-4">
+        <div role="alertdialog" aria-labelledby="confirmar-titulo" className="flex flex-col gap-3 rounded-xl2 border-2 border-borde bg-arena p-4">
           <p id="confirmar-titulo" className="font-medium">
             {pidiendo === "cargar"
               ? "Esto reemplaza los datos de demostración anteriores y mueve la línea base a las últimas 4 semanas. ¿Continuamos?"

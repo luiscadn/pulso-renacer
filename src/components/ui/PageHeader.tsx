@@ -2,12 +2,12 @@ import type { ReactNode } from "react";
 
 export function PageHeader({ titulo, subtitulo, accion }: { titulo: string; subtitulo?: ReactNode; accion?: ReactNode }) {
   return (
-    <header className="mb-5 flex items-start justify-between gap-3">
+    <header className="mb-6 flex flex-col items-center gap-3 text-center">
       <div className="min-w-0">
-        <h1 className="text-2xl font-semibold leading-tight text-texto">{titulo}</h1>
-        {subtitulo && <p className="mt-1 text-base text-texto-suave">{subtitulo}</p>}
+        <h1 className="text-4xl leading-tight text-vino">{titulo}</h1>
+        {subtitulo && <p className="mx-auto mt-1 max-w-md text-base text-texto-suave">{subtitulo}</p>}
       </div>
-      {accion && <div className="shrink-0">{accion}</div>}
+      {accion && <div>{accion}</div>}
     </header>
   );
 }

@@ -30,7 +30,7 @@ export function FilaMediacion({ id, fechaTexto, resultado, seguimientoHecho }: {
   }
 
   return (
-    <li className="flex flex-col gap-3 rounded-xl2 border border-borde bg-white p-4" aria-busy={pendiente}>
+    <li className="flex flex-col gap-3 rounded-xl2 border-2 border-borde bg-white p-4" aria-busy={pendiente}>
       <div className="flex items-center justify-between gap-2">
         <p className="font-semibold">{fechaTexto}</p>
         <Chip tono={res === "ACUERDO" ? "verde" : res === "EN_CURSO" ? "amarillo" : "rojo"}>{RESULTADO_MEDIACION[res]}</Chip>

@@ -28,7 +28,7 @@ type Props = {
 export function StatCard({ titulo, valor, meta, lineaBase, estado, codigo, detalle, grafica, className }: Props) {
   const e = estado ? estados[estado] : null;
   return (
-    <article className={cn("flex flex-col gap-3 rounded-xl2 border border-borde bg-white p-4 shadow-suave", className)}>
+    <article className={cn("flex flex-col gap-3 rounded-xl2 border-2 border-borde bg-white p-4 shadow-suave", className)}>
       <div className="flex items-start justify-between gap-2">
         <h3 className="font-sans text-base font-semibold leading-snug">
           {codigo && <span className="mr-1 text-texto-suave">{codigo}</span>}

@@ -20,7 +20,7 @@ export function Tendencia({ puntos, titulo, umbral }: { puntos: Punto[]; titulo:
             formatter={(v) => (typeof v === "number" ? `${Math.round(v)} %` : "Datos insuficientes")}
             labelFormatter={(l) => `Semana ${String(l).split("-W")[1] ?? l}`}
           />
-          <Line type="monotone" dataKey="valor" stroke="#4E6B53" strokeWidth={2} dot={{ r: 3 }} connectNulls={false} isAnimationActive={false} />
+          <Line type="monotone" dataKey="valor" stroke="#8C4256" strokeWidth={2} dot={{ r: 3 }} connectNulls={false} isAnimationActive={false} />
         </LineChart>
       </ResponsiveContainer>
     </div>

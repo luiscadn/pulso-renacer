@@ -38,7 +38,7 @@ function Tarjeta({ href, titulo, descripcion, Icono, contador }: Mosaico) {
     <li>
       <Link
         href={href}
-        className="relative flex h-full min-h-28 flex-col justify-between gap-2 rounded-xl2 border border-borde bg-white p-4 shadow-suave transition-colors hover:border-primario active:bg-arena"
+        className="relative flex h-full min-h-28 flex-col justify-between gap-2 rounded-xl2 border-2 border-borde bg-white p-4 shadow-suave transition-colors hover:border-primario active:bg-arena"
       >
         <Icono aria-hidden className="size-7 text-primario-osc" />
         <span>
@@ -74,8 +74,8 @@ export default async function InicioPage() {
 
   return (
     <>
-      <h1 className="mb-1 text-2xl font-semibold">¡Hola! ¿Qué necesitas hoy?</h1>
-      <p className="mb-5 text-texto-suave">Elige una opción. Todo está a pocos toques.</p>
+      <h1 className="mb-1 text-center text-4xl">¡Hola! ¿Qué necesitas hoy?</h1>
+      <p className="mb-6 text-center text-texto-suave">Elige una opción. Todo está a pocos toques.</p>
       <ul className="grid grid-cols-2 gap-3">
         {EQUIPO.map((m) => (
           <Tarjeta key={m.href} {...m} />

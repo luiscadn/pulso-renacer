@@ -27,7 +27,7 @@ export default async function AyudaPage() {
           ["/circulos", "Círculos"],
           ["/privacidad", "Privacidad"],
         ].map(([href, txt]) => (
-          <Link key={href} href={href} className="flex min-h-12 items-center rounded-xl2 border border-borde bg-white px-4 font-medium hover:border-primario">
+          <Link key={href} href={href} className="flex min-h-12 items-center rounded-xl2 border-2 border-borde bg-white px-4 font-medium hover:border-primario">
             {txt}
           </Link>
         ))}

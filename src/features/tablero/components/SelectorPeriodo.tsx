@@ -19,7 +19,7 @@ export function SelectorPeriodo({ opcion, periodo, hoy }: { opcion: OpcionPeriod
           30 días
         </Link>
       </div>
-      <details open={opcion === "rango"} className="rounded-xl2 border border-borde bg-white px-3">
+      <details open={opcion === "rango"} className="rounded-xl2 border-2 border-borde bg-white px-3">
         <summary className="min-h-11 cursor-pointer py-2.5 font-medium">Elegir un rango de fechas</summary>
         <form method="get" className="flex flex-col gap-3 pb-3">
           <input type="hidden" name="p" value="rango" />

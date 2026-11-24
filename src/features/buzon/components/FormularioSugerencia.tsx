@@ -48,7 +48,7 @@ function Formulario({ otra }: { otra: () => void }) {
       <Banner tipo="info">
         Evita nombres de compañeras o pacientes. Los temas entre personas se hablan en privado con la administradora (mediación).
       </Banner>
-      <div className="flex flex-col gap-3 rounded-xl2 border border-borde bg-white p-3">
+      <div className="flex flex-col gap-3 rounded-xl2 border-2 border-borde bg-white p-3">
         <label className="flex min-h-11 cursor-pointer items-center gap-3 text-base font-medium">
           <input
             type="checkbox"
